@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFC Indonesia - Beranda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --cfc-red: #d42027;
+            --cfc-red-dark: #b01a20;
+            --cfc-yellow: #ffc107;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Navbar */
+        .navbar-cfc {
+            background-color: var(--cfc-red);
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-cfc .navbar-brand {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-cfc .navbar-brand .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--cfc-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .navbar-cfc .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .navbar-cfc .nav-link:hover {
+            background-color: var(--cfc-red-dark);
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Hero Slider */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .hero-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hero-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            border: 2px solid white;
+        }
+
+        .slider-dot.active {
+            background: white;
+        }
+
+        /* Section Title */
+        .section-title {
+            color: var(--cfc-red);
+            font-weight: 700;
+            font-size: 1.75rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 2.5rem 0 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        /* Promo Cards */
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        @media (max-width: 992px) {
+            .promo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .promo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .promo-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .promo-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .promo-card-body {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .promo-card-title {
+            color: var(--cfc-red);
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--cfc-red), var(--cfc-red-dark));
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .cta-section h2 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .btn-cfc {
+            background-color: var(--cfc-yellow);
+            color: var(--cfc-red);
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-cfc:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            color: var(--cfc-red);
+        }
+
+        /* Features */
+        .features-section {
+            padding: 3rem 1rem;
+            background: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--cfc-red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-item h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            font-size: 0.875rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 3rem 1rem 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--cfc-red);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-brand .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--cfc-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .footer h5 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer p {
+            font-size: 0.875rem;
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--cfc-red);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .footer-social a:hover {
+            background: var(--cfc-red);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        /* Newsletter */
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .newsletter-form button {
+            background: var(--cfc-red);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-cfc">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span class="logo-icon">🍗</span>
+                    <img src="image/logo-cfc.png" alt="Logo CFC" class="img-fluid" style="height:50px;">  
+            </a>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">BERANDA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="menu.html">MENU</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="layanan.html">LAYANAN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cfc-promo.html">PROMO</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <section class="hero-section">
+        <div class="hero-slider">
+            <div class="hero-slide">
+                <img src="https://www.cfcindonesia.com/img/slider/NASI-DAUN-JERUK.jpg" alt="Nasi Daun Jeruk">
+            </div>
+            <div class="hero-slide">
+                <img src="https://www.cfcindonesia.com/img/slider/CFC-TROPICAL-TWIST---HOME-BANNER.jpg" alt="Tropical Twist">
+            </div>
+            <div class="hero-slide">
+                <img src="https://www.cfcindonesia.com/img/slider/FM-MONSTER-TOYS---HOME-BANNER.jpg" alt="Fun Meal Monster Toys">
+            </div>
+            <div class="hero-slide">
+                <img src="https://www.cfcindonesia.com/img/slider/PROMO-SERBA---HOME-BANNER.jpg" alt="Promo Serba">
+            </div>
+        </div>
+        <div class="slider-dots">
+            <span class="slider-dot active"></span>
+            <span class="slider-dot"></span>
+            <span class="slider-dot"></span>
+            <span class="slider-dot"></span>
+        </div>
+    </section>
+
+    <!-- Promo Terbaru -->
+    <section class="container">
+        <h2 class="section-title">Promo Terbaru</h2>
+        <div class="promo-grid">
+            <div class="promo-card">
+                <img src="image/NASI-DAUN-JERUK---POSTER.jpg" alt="Nasi Daun Jeruk">
+                <div class="promo-card-body">
+                    <h3 class="promo-card-title">Nasi Daun Jeruk</h3>
+                </div>
+            </div>
+            <div class="promo-card">
+                <img src="image/fun meal mosntes toys.jpg" alt="Fun Meal Monster Toys">
+                <div class="promo-card-body">
+                    <h3 class="promo-card-title">Fun Meal Monster Toys</h3>
+                </div>
+            </div>
+            <div class="promo-card">
+                <img src="image/tropical twis.jpg" alt="Tropical Twist">
+                <div class="promo-card-body">
+                    <h3 class="promo-card-title">Tropical Twist</h3>
+                </div>
+            </div>
+            <div class="promo-card">
+                <img src="image/promo serba.jpg" alt="Promo Serba">
+                <div class="promo-card-body">
+                    <h3 class="promo-card-title">Promo Serba</h3>
+                </div>
+            </div>
+            <div class="promo-card">
+                <img src="image/pesta ulang tahun.jpg " alt="Pesta ulang tahun">
+                <div class="promo-card-body">
+                    <h3 class="promo-card-title">Pesta ulang tahun</h3>
+                </div>
+            </div>
+            <div class="promo-card">
+                <img src="image/promo boks.jpg" alt="Promo Boks">
+                <div class="promo-card-body">
+                    <h3 class="promo-card-title">Promo Boks</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Kenapa Pilih CFC?</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🍗</div>
+                    <h4>Ayam Berkualitas</h4>
+                    <p>100% ayam segar pilihan terbaik</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌶️</div>
+                    <h4>Bumbu Rahasia</h4>
+                    <p>Resep bumbu khas yang lezat</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h4>Cepat & Segar</h4>
+                    <p>Dimasak fresh untuk pesanan Anda</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏪</div>
+                    <h4>500+ Outlet</h4>
+                    <p>Tersebar di seluruh Indonesia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Pesan Sekarang!</h2>
+        <p>Nikmati ayam goreng CFC yang renyah dan lezat. Tersedia delivery ke lokasi Anda!</p>
+        <a href="#" class="btn-cfc">Lihat Menu</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">
+                        <span class="logo-icon">🍗</span>
+                         <img src="image/logo-cfc.png" alt="Logo CFC" class="img-fluid" style="height:50px;">
+                    </div>
+                    <p>California Fried Chicken - Ayam goreng khas Amerika dengan cita rasa Indonesia sejak 1983.</p>
+                    <div class="footer-social">
+                        <a href="#">FB</a>
+                        <a href="#">IG</a>
+                        <a href="#">TW</a>
+                        <a href="#">YT</a>
+                    </div>
+                </div>
+                <div>
+                    <h5>Menu</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Ayam Goreng</a></li>
+                        <li><a href="#">Burger</a></li>
+                        <li><a href="#">Nasi</a></li>
+                        <li><a href="#">Minuman</a></li>
+                        <li><a href="#">Paket Hemat</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Layanan</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Delivery</a></li>
+                        <li><a href="#">Katering</a></li>
+                        <li><a href="#">Birthday Party</a></li>
+                        <li><a href="#">CFC Club</a></li>
+                        <li><a href="#">Gift Voucher</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Hubungi Kami</h5>
+                    <p>
+                        <strong>Customer Care:</strong><br>
+                        (021) 500 210<br><br>
+                        <strong>Email:</strong><br>
+                        cs@cfcindonesia.com
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CFC Indonesia. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
